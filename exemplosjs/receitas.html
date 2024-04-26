@@ -1,0 +1,122 @@
+<!DOCTYPE html> 
+<html lang="pt-br"> 
+    <head> 
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>Catálogo de Receitas</title> 
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <style> 
+            body { background-color: orange; }
+
+            .container-fluid {
+                display: flex;
+                justify-content: center;
+            }
+            
+            #pnlCatalogo {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                border-radius: 10px;
+            }
+
+            .card {
+                width: 400px;
+                margin: 20px;
+            }
+
+            header {
+                margin: 20px;
+            }
+
+        </style>
+    </head>
+    <header>
+        <h1>Catálogo de Receitas</h1>
+    </header>
+    <body onload="preencheCatalogo()">
+        <div class="container-fluid"> 
+            <div id="pnlCatalogo">   
+                <script>
+                    var receitas = [
+                        {
+                            "titulo": "Bolo de Chocolate",
+                            "imagem": "imagem/bolo-de-chocolate.png",
+                            "preparo": "Misture os ingredientes, asse em forno médio por 40 minutos.",
+                            "ingredientes": [
+                                "3 ovos",
+                                "2 xícaras de farinha de trigo",
+                                "1 xícara de açúcar",
+                                "1 xícara de chocolate em pó",
+                                "1 xícara de leite",
+                                "1/2 xícara de óleo",
+                                "1 colher de sopa de fermento em pó"
+                            ]
+                        },
+                        {
+                            "titulo": "Pudim de Leite Condensado",
+                            "imagem": "imagem/pudim-leite-condensado.png",
+                            "preparo": "Bata todos os ingredientes no liquidificador, coloque em uma forma caramelizada e asse em banho-maria por 1 hora.",
+                            "ingredientes": [
+                                "1 lata de leite condensado",
+                                "1 lata de leite",
+                                "3 ovos"
+                            ]
+                        },
+                        {
+                            "titulo": "Arroz Doce",
+                            "imagem": "imagem/arroz-doce.png",
+                            "preparo": "Cozinhe o arroz com água e uma pitada de sal. Em outra panela, misture o leite, o leite condensado, o açúcar e a canela em pau. Quando o arroz estiver cozido, adicione a mistura de leite e cozinhe em fogo baixo até engrossar. Retire do fogo, coloque em taças individuais e polvilhe canela em pó por cima.",
+                            "ingredientes": [
+                                "1 xícara de arroz",
+                                "2 xícaras de água",
+                                "1 pitada de sal",
+                                "1 litro de leite",
+                                "1 lata de leite condensado",
+                                "1 xícara de açúcar",
+                                "2 paus de canela",
+                                "Canela em pó para polvilhar"
+                            ]
+                        }
+                    ];
+                
+                    function getListaIngredientes(receita) {
+                        var lista = receita.ingredientes.map(function (ingrediente) {
+                            return `<li>${ingrediente}</li>`;
+                        }).reduce(function (acc, current) {
+                            return acc + current;
+                        }, "");
+                        return `<ul>${lista}</ul>`;
+                    }
+                
+                    function getCard(receita) {
+                        return `
+                        <div class="card">
+                            <img src="${receita.imagem}" class="card-img-top" alt="${receita.titulo}">
+                            <div class="card-body">
+                                <h5 class="card-title">${receita.titulo}</h5>
+                                <div class="card-text">
+                                    ${getListaIngredientes(receita)}
+                                    <hr>
+                                    ${receita.preparo}
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    }
+                
+                    function preencheCatalogo() {
+                        var pnlCatalogo = document.getElementById("pnlCatalogo");
+                        var html = receitas.map(function (receita) {
+                            return getCard(receita);
+                        }).reduce(function (acc, current) {
+                        return acc + current;
+                    }, "");
+                    pnlCatalogo.innerHTML = html;
+                }
+            </script>
+        </div> 
+    </div> 
+</body> 
+</html>

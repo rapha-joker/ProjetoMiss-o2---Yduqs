@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordenando</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      border-radius: 10px;
+    }
+
+    input[type="number"] {
+      padding: 10px;
+      width: 500px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: blue;
+      color: white;
+      border:none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    select {
+      padding: 10px;
+      width: 520px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
+
+    ul {
+      list-style-type:disc;
+      padding: 0;
+    }
+
+    ul li {
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    hr {
+        width: 520px;
+        margin-left: 0px;
+    }
+  </style>
+</head>
+
+<body>
+  <label for="valor">Valor:</label>
+  <input type="number" id="valor">
+
+  <br>
+
+  <button onclick="add()">Adicionar</button>
+
+  <hr/>
+
+  <label for="algoritmo"></label>
+  <select id="algoritmo">
+    <option value="bubble">Bubble Sort</option>
+    <option value="selection">Selection Sort</option>
+    <option value="quick">Quick Sort</option>
+  </select>
+
+  <br>
+
+  <button onclick="ordenar()">Ordenar</button>
+  <button onclick="misturar()">Misturar</button>
+
+  <hr/>
+
+
+  <ul id="valores"></ul>
+
+  <script>
+    function add() {
+      var valorInput = document.getElementById("valor");
+      var listaValores = document.getElementById("valores");
+      var node = document.createElement("li");
+      var textoNode = document.createTextNode(valorInput.value);
+      node.appendChild(textoNode);
+      listaValores.appendChild(node);
+      valorInput.value = "";
+    }
+
+    function ordenar() {
+      var listaValores = document.getElementById("valores");
+      var listaSelecao = document.getElementById("algoritmo");
+      var vetor = Array.from(listaValores.children).map(function(item) {
+        return parseInt(item.innerHTML);
+      });
+
+      var algoritmoSelecionado = listaSelecao.options[listaSelecao.selectedIndex].value;
+
+      if (algoritmoSelecionado === "bubble") {
+        bubbleSort(vetor);
+      } else if (algoritmoSelecionado === "selection") {
+        selectionSort(vetor);
+      } else if (algoritmoSelecionado === "quick") {
+        quickSort(vetor, 0, vetor.length - 1);
+      }
+
+      listaValores.innerHTML = vetor.map(function(item) {
+        return "<li>" + item + "</li>";
+      }).join("");
+    }
+
+    function misturar() {
+      var listaValores = document.getElementById("valores");
+      var vetor = Array.from(listaValores.children).map(function(item) {
+        return parseInt(item.innerHTML);
+      });
+
+      shuffle(vetor);
+
+      listaValores.innerHTML = vetor.map(function(item) {
+        return "<li>" + item + "</li>";
+      }).join("");
+    }
+
+    function shuffle(array) {
+      var currentIndex = array.length;
+      var temporaryValue, randomIndex;
+
+      // Enquanto ainda houver elementos para embaralhar
+      while (currentIndex !== 0) {
+        // Escolhe um elemento aleatório restante
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // E faz a troca com o elemento atual
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
+    }
+
+    // Implementação dos algoritmos de ordenação
+
+    // Bubble Sort
+    function bubbleSort(array) {
+      var n = array.length;
+      var swapped;
+      do {
+        swapped = false;
+        for (var i = 0; i < n - 1; i++) {
+          if (array[i] > array[i + 1]) {
+            var temp = array[i];
+            array[i] = array[i + 1];
+            array[i + 1] = temp;
+            swapped = true;
+          }
+        }
+        n--;
+      } while (swapped);
+    }
+
+    // Selection Sort
+    function selectionSort(array) {
+      var n = array.length;
+      for (var i = 0; i < n - 1; i++) {
+        var minIndex = i;
+        for (var j = i + 1; j < n; j++) {
+          if (array[j] < array[minIndex]) {
+            minIndex = j;
+          }
+        }
+        if (minIndex !== i) {
+          var temp = array[i];
+          array[i] = array[minIndex];
+          array[minIndex] = temp;
+        }
+      }
+    }
+
+    // Quick Sort
+    function quickSort(array, left, right) {
+      if (left < right) {
+        var pivotIndex = partition(array, left, right);
+        quickSort(array, left, pivotIndex - 1);
+        quickSort(array, pivotIndex + 1, right);
+      }
+    }
+
+    function partition(array, left, right) {
+      var pivot = array[right];
+      var i = left - 1;
+      for (var j = left; j < right; j++) {
+        if (array[j] < pivot) {
+            i++;
+            var temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+            }
+            }
+            var temp = array[i + 1];
+            array[i + 1] = array[right];
+            array[right] = temp;
+            return i + 1;
+            }
+</script>
+  </script>
+</body>
+
+</html>
