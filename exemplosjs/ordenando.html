@@ -5,91 +5,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ordenando</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 5px;
-      border-radius: 10px;
-    }
-
-    input[type="number"] {
-      padding: 10px;
-      width: 500px;
-      margin-bottom: 10px;
-      border-radius: 10px;
-    }
-
-    button {
-      padding: 10px 20px;
-      background-color: blue;
-      color: white;
-      border:none;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-bottom: 10px;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    select {
-      padding: 10px;
-      width: 520px;
-      margin-bottom: 10px;
-      border-radius: 10px;
-    }
-
-    ul {
-      list-style-type:disc;
-      padding: 0;
-    }
-
-    ul li {
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-
-    hr {
-        width: 520px;
-        margin-left: 0px;
-    }
-  </style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
-
 <body>
-  <label for="valor">Valor:</label>
-  <input type="number" id="valor">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="valor">Valor:</label>
+        <input type="number" id="valor" class="form-control">
+        <br>
+        <button onclick="add()" class="btn btn-primary">Adicionar</button>
+        <hr>
+        <label for="algoritmo">Algoritmo:</label>
+        <select id="algoritmo" class="form-control">
+          <option value="bubble">Bubble Sort</option>
+          <option value="selection">Selection Sort</option>
+          <option value="quick">Quick Sort</option>
+        </select>
+        <br>
+        <button onclick="ordenar()" class="btn btn-primary">Ordenar</button>
+        <button onclick="misturar()" class="btn btn-primary">Misturar</button>
+        <hr>
+        <ul id="valores"></ul>
+      </div>
+    </div>
+  </div>
 
-  <br>
-
-  <button onclick="add()">Adicionar</button>
-
-  <hr/>
-
-  <label for="algoritmo"></label>
-  <select id="algoritmo">
-    <option value="bubble">Bubble Sort</option>
-    <option value="selection">Selection Sort</option>
-    <option value="quick">Quick Sort</option>
-  </select>
-
-  <br>
-
-  <button onclick="ordenar()">Ordenar</button>
-  <button onclick="misturar()">Misturar</button>
-
-  <hr/>
-
-
-  <ul id="valores"></ul>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script>
     function add() {
       var valorInput = document.getElementById("valor");
@@ -104,7 +47,7 @@
     function ordenar() {
       var listaValores = document.getElementById("valores");
       var listaSelecao = document.getElementById("algoritmo");
-      var vetor = Array.from(listaValores.children).map(function(item) {
+      var vetor = Array.from(listaValores.children).map(function (item) {
         return parseInt(item.innerHTML);
       });
 
@@ -118,20 +61,20 @@
         quickSort(vetor, 0, vetor.length - 1);
       }
 
-      listaValores.innerHTML = vetor.map(function(item) {
+      listaValores.innerHTML = vetor.map(function (item) {
         return "<li>" + item + "</li>";
       }).join("");
     }
 
     function misturar() {
       var listaValores = document.getElementById("valores");
-      var vetor = Array.from(listaValores.children).map(function(item) {
+      var vetor = Array.from(listaValores.children).map(function (item) {
         return parseInt(item.innerHTML);
       });
 
       shuffle(vetor);
 
-      listaValores.innerHTML = vetor.map(function(item) {
+      listaValores.innerHTML = vetor.map(function (item) {
         return "<li>" + item + "</li>";
       }).join("");
     }
@@ -207,18 +150,17 @@
       var i = left - 1;
       for (var j = left; j < right; j++) {
         if (array[j] < pivot) {
-            i++;
-            var temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
-            }
-            }
-            var temp = array[i + 1];
-            array[i + 1] = array[right];
-            array[right] = temp;
-            return i + 1;
-            }
-</script>
+          i++;
+          var temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+        }
+      }
+      var temp = array[i + 1];
+      array[i + 1] = array[right];
+      array[right] = temp;
+      return i + 1;
+    }
   </script>
 </body>
 
